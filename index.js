@@ -5,7 +5,7 @@ const PORT = process.env.PORT || 3001
 
 server.listen(PORT, async () => {
     // await conn.drop();
-    await conn.sync({ force: true })
+    await conn.sync({ force: false })
     console.log(`Server is listening at ${PORT}`)
     console.log("* * * * * * * * * * * * * * * * * * * * * * ")
 })
