@@ -1,5 +1,5 @@
-const { DataTypes } = require('sequelize');
-const { phoneNumberRegex } = require('../../utils/validators');
+const { DataTypes } = require('sequelize')
+const { phoneNumberRegex } = require('../../utils/validators')
 
 module.exports = (sequelize) => {
     sequelize.define('User', {
@@ -7,11 +7,11 @@ module.exports = (sequelize) => {
             type: DataTypes.UUID,
             defaultValue: DataTypes.UUIDV4,
             allowNull: false,
-            primaryKey: true,
+            primaryKey: true
         },
         name: {
             type: DataTypes.STRING,
-            allowNull: false,
+            allowNull: false
         },
         email: {
             type: DataTypes.STRING,
@@ -42,28 +42,28 @@ module.exports = (sequelize) => {
         },
         password: {
             type: DataTypes.STRING,
-            allowNull: false,
+            allowNull: false
         },
         birthDate: {
             type: DataTypes.DATEONLY,
             allowNull: true,
             validate: {
                 isDate: true,
-                isBefore: new Date().toISOString().split('T')[0],
-            },
+                isBefore: new Date().toISOString().split('T')[0]
+            }
         },
         profilePicture: {
             type: DataTypes.STRING,
             allowNull: true,
             validate: {
                 isUrl: {
-                    msg: 'El enlace de la imagen de perfil no es válido',
-                },
-            },
+                    msg: 'El enlace de la imagen de perfil no es válido'
+                }
+            }
         },
         twoFactorEnabled: {
             type: DataTypes.BOOLEAN,
             defaultValue: false
-        },
+        }
     })
 }

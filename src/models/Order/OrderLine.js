@@ -1,4 +1,4 @@
-const { DataTypes } = require('sequelize');
+const { DataTypes } = require('sequelize')
 
 module.exports = (sequelize) => {
     sequelize.define('OrderLine', {
@@ -6,7 +6,7 @@ module.exports = (sequelize) => {
             type: DataTypes.UUID,
             defaultValue: DataTypes.UUIDV4,
             allowNull: false,
-            primaryKey: true,
+            primaryKey: true
         },
         quantity: {
             type: DataTypes.INTEGER,
@@ -18,12 +18,12 @@ module.exports = (sequelize) => {
         },
         unitPrice: {
             type: DataTypes.DECIMAL(10, 2),
-            allowNull: false,
+            allowNull: false
         },
         discount: {
             type: DataTypes.DECIMAL(10, 2),
             allowNull: true,
-            defaultValue: 0,
-        },
+            defaultValue: 0
+        }
     })
 }

@@ -1,4 +1,4 @@
-const { DataTypes } = require('sequelize');
+const { DataTypes } = require('sequelize')
 
 module.exports = (sequelize) => {
     sequelize.define('UserRol', {
@@ -6,16 +6,16 @@ module.exports = (sequelize) => {
             type: DataTypes.UUID,
             defaultValue: DataTypes.UUIDV4,
             allowNull: false,
-            primaryKey: true,
+            primaryKey: true
         },
         rol: {
             type: DataTypes.STRING,
             allowNull: false,
-            unique: true,
+            unique: true
         },
         description: {
             type: DataTypes.STRING,
-            allowNull: false,
+            allowNull: false
         }
     })
 }
