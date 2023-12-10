@@ -2,7 +2,7 @@ const { DataTypes } = require('sequelize');
 const { phoneNumberRegex } = require('../../utils/validators');
 
 module.exports = (sequelize) => {
-    const User = sequelize.define('User', {
+    sequelize.define('User', {
         id: {
             type: DataTypes.UUID,
             defaultValue: DataTypes.UUIDV4,
@@ -66,11 +66,4 @@ module.exports = (sequelize) => {
             defaultValue: false
         },
     })
-
-    require("./UserRol")(sequelize)
-    const { UserRol } = sequelize.models;
-
-    UserRol.hasMany(User, { foreignKey: 'roleId' });
-    User.belongsTo(UserRol, { foreignKey: 'roleId' });
-
 }
