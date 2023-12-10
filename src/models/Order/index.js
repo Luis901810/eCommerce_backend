@@ -1,4 +1,4 @@
-const { DataTypes } = require('sequelize');
+const { DataTypes } = require('sequelize')
 
 module.exports = (sequelize) => {
     sequelize.define('Order', {
@@ -6,16 +6,16 @@ module.exports = (sequelize) => {
             type: DataTypes.UUID,
             defaultValue: DataTypes.UUIDV4,
             allowNull: false,
-            primaryKey: true,
+            primaryKey: true
         },
         date: {
             type: DataTypes.DATE,
             allowNull: false,
-            defaultValue: DataTypes.NOW,
+            defaultValue: DataTypes.NOW
         },
         totalAmount: {
             type: DataTypes.DECIMAL(10, 2),
-            allowNull: false,
-        },
+            allowNull: false
+        }
     })
 }

@@ -1,4 +1,4 @@
-const { DataTypes } = require('sequelize');
+const { DataTypes } = require('sequelize')
 
 module.exports = (sequelize) => {
     sequelize.define('Shoe', {
@@ -6,17 +6,17 @@ module.exports = (sequelize) => {
             type: DataTypes.UUID,
             defaultValue: DataTypes.UUIDV4,
             allowNull: false,
-            primaryKey: true,
+            primaryKey: true
         },
         name: {
             type: DataTypes.STRING,
             allowNull: false,
-            unique: true,
+            unique: true
         },
         description: {
             type: DataTypes.STRING,
             allowNull: true,
-            defaultValue: "Sin descripción"
+            defaultValue: 'Sin descripción'
         },
         price: {
             type: DataTypes.DECIMAL(10, 2),
@@ -30,9 +30,9 @@ module.exports = (sequelize) => {
             allowNull: true,
             validate: {
                 isUrl: {
-                    msg: 'El enlace de la imagen de zapato no es válido',
-                },
-            },
+                    msg: 'El enlace de la imagen de zapato no es válido'
+                }
+            }
         },
         stock: {
             type: DataTypes.INTEGER,
@@ -48,7 +48,7 @@ module.exports = (sequelize) => {
             defaultValue: 0,
             validate: {
                 min: 0,
-                max: 100,
+                max: 100
             }
         }
     })
