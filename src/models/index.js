@@ -14,12 +14,16 @@ module.exports = (sequelize) => {
     require('./Order')(sequelize)
     require('./Order/OrderLine')(sequelize)
     require('./Order/OrderStatus')(sequelize)
+    require('./Favorite')(sequelize)
+    require('./UserReview')(sequelize)
 
     const {
         User, UserRol, UserGender, UserStatus,
         Shoe, ShoeSize, ShoeBrand, ShoeCategory, ShoeColor, ShoeGender, ShoeMaterial,
         ShoeShoeCategory,
-        Order, OrderStatus, OrderLine
+        Order, OrderStatus, OrderLine,
+        Favorite,
+        UserReview
     } = sequelize.models
 
     // User
@@ -63,4 +67,17 @@ module.exports = (sequelize) => {
 
     Shoe.belongsToMany(Order, { through: OrderLine })
     Order.belongsToMany(Shoe, { through: OrderLine })
+
+    // Favorite
+
+    Shoe.belongsToMany(User, { through: Favorite })
+    User.belongsToMany(Shoe, { through: Favorite })
+
+    // UserReview
+
+    // User.hasMany(UserReview, { foreignKey: 'userId' })
+    // UserReview.belongsTo(User, { foreignKey: 'userId' })
+
+    // UserReview.hasOne(OrderLine, { foreignKey: 'orderLineId' })
+    // OrderLine.belongsTo(UserReview, { foreignKey: 'orderLineId' })
 }
