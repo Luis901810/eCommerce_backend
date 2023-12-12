@@ -1,0 +1,15 @@
+{
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "server": "berry.db.elephantsql.com",
+            "port": 5432,
+            "driver": "PostgreSQL",
+            "name": "ecommerce",
+            "database": "ragawppc",
+            "password": "9qmNhdw2hXp_LqQiJ1oxXAizCfCbI2-0",
+            "username": "ragawppc",
+            "group": "ecommerce"
+        }
+    ]
+}
