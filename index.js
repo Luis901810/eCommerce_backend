@@ -1,11 +1,9 @@
-const server = require('./src/app.js')
+const server = require('./src/server.js')
 const { conn } = require('./src/db.js')
-
 const PORT = process.env.PORT || 3001
 
-server.listen(PORT, async () => {
-    // await conn.drop();
-    await conn.sync({ force: false })
-    console.log(`Server is listening at ${PORT}`)
-    console.log('* * * * * * * * * * * * * * * * * * * * * * ')
-})
+conn.sync({ alter: true }).then(() => {
+    server.listen(PORT, () => {
+      console.log(` puerto escuchando en http://localhost:${PORT}`);
+    });
+  });
