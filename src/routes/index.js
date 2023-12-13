@@ -8,6 +8,7 @@ router.get('/', (req, res) => {
 // ------------     Routes      --------------------
 
 router.use('/user', require('./User'))
+router.use('/shoe', require('./Shoe'))
 
 // -------------------------------------------------
 

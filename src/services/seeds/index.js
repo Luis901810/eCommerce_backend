@@ -7,6 +7,11 @@ module.exports = async () => {
         await require('./User')()
         // Shoe
         await require('./Shoe/Gender')()
+        await require('./Shoe/Color')()
+        await require('./Shoe/Size')()
+        await require('./Shoe/Brand')()
+        await require('./Shoe/Material')()
+        await require('./Shoe/Category')()
 
         console.log('Tablas revisadas y datos añadidos (*)')
     } catch (error) {
