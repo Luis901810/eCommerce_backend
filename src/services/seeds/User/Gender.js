@@ -16,8 +16,19 @@ const data = [
 ]
 
 module.exports = async () => {
-    const count = await UserGender.count()
-    if (count === 0) {
-        await UserGender.bulkCreate(data)
+    try {
+        // Insertar los géneros si no existen
+        await Promise.all(data.map(async ({ gender, description }) => {
+            await UserGender.findOrCreate({
+                where: { gender },
+                defaults: {
+                    description
+                }
+            })
+        }))
+
+        console.log('Géneros de usuario insertados correctamente.')
+    } catch (error) {
+        console.error('Error al insertar géneros de usuario:', error)
     }
 }
