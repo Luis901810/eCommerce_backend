@@ -1,5 +1,5 @@
 const { Op } = require('sequelize')
-const { Shoe, ShoeSize, ShoeColor, ShoeBrand, ShoeMaterial, ShoeGender, ShoeCategory } = require('../../db')
+const { Shoe,ShoeCategory } = require('../../db')
 
 const createShoe = async(req, res) => {
     const {
@@ -9,9 +9,6 @@ const createShoe = async(req, res) => {
         image,
         stock,
         discountPercentage,
-    } = req.body
-
-    let {
         size,
         color,
         brand,
@@ -19,51 +16,9 @@ const createShoe = async(req, res) => {
         gender,
         category,
     } = req.body
+
     try{
-        const [sizeDB , sizCreated] = await ShoeSize.findOrCreate({
-            where:{size: size},
-            defaults:{
-                size:size,
-                description:size
-            }
-        })
-
-        color = color.toLowerCase()
-        const [colorDB, colorCreated] = await ShoeColor.findOrCreate({
-            where:{color: color},
-            defaults:{
-                color:color,
-                rgbValue: color,
-                description:color
-            }
-        })
-
-        brand = brand.toLowerCase()
-        const [brandDB, brandCreated] = await ShoeBrand.findOrCreate({
-            where:{brand: brand},
-            defaults:{
-                brand:brand,
-                description:brand
-            }
-        })
-
-        material = material.toLowerCase()
-        const [materialDB, materialCreated] = await ShoeMaterial.findOrCreate({
-            where:{material: material},
-            defaults:{
-                material:material,
-                description:material
-            }
-        })
-
-        gender = gender.toLowerCase()
-        const [genderDB, genderCreated] = await ShoeGender.findOrCreate({
-            where:{gender: gender},
-            defaults:{
-                gender:gender,
-                description:gender
-            }
-        })
+        
         let newCategory = []
         for (item in category){
             
@@ -76,22 +31,23 @@ const createShoe = async(req, res) => {
             })
             newCategory.push(itemDB)
         }
+
         const [newShoe, created] = await Shoe.findOrCreate({
             where:{
-                [Op.and]:[{name:name},{sizeId:sizeDB.id},{colorId:colorDB.id}, {brandId:brandDB.id},{genderId: genderDB.id}]
+                [Op.and]:[{name:name.toLowerCase()},{sizeId:size},{colorId:color}, {brandId:brand},{genderId: gender}]
             },
             defaults:{
-                name: name,
+                name: name.toLowerCase(),
                 description: description,
                 price: price,
                 image: image,
                 stock: stock,
                 discountPercentage: discountPercentage,
-                sizeId:sizeDB.id,
-                colorId:colorDB.id,
-                brandId:brandDB.id,
-                materialId:materialDB.id,
-                genderId: genderDB.id
+                sizeId:size,
+                colorId:color,
+                brandId:brand,
+                materialId:material,
+                genderId: gender
 
             }
         })

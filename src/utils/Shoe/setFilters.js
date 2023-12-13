@@ -11,23 +11,19 @@ module.exports = (shoeFilters) => {
         discountPercentage,
         size,
         color,
-        brand, material, gender, category
+        brand, material, gender
     } = shoeFilters
 
     if (name) filters["name"] = { [Op.iLike]: "%" + name.toLowerCase().trim() + "%" }
     if (pricemin & pricemax) filters["price"] = {[Op.between]:[pricemin, pricemax]}
     if (stock) filters["stock"] = { [Op.lte]: Number(stock)}
     if (discountPercentage) filters["discountPercentage"] = { [Op.gt]:0, [Op.lte]:discountPercentage}
-    
-    // if (lname) filters["lastName"] = { [Op.iLike]: "%" + lname.toLowerCase().trim() + "%" }
-    // if (email) filters["email"] = { [Op.iLike]: "%" + email.toLowerCase().trim() + "%" }
-    // if (gender) filters["gender"] = { [Op.iLike]: "%" + gender.toLowerCase().trim() + "%" }
-    // if (status) filters["status"] = { [Op.iLike]: "%" + status.toLowerCase().trim() + "%" }
-    // if (systemRole) filters["systemRole"] = { [Op.iLike]: "%" + systemRole.toLowerCase().trim() + "%" }
-
-    /**
-     * Los filtros startDate y endDate limitan y filtran usuarios por el enrollmentDate
-     */
+    if (size) filters["sizeId"] = { [Op.eq]: size}
+    if (color) filters["colorId"] = { [Op.eq]: color}
+    if (brand) filters["brandId"] = { [Op.eq]: brand}
+    if (material) filters["materialId"] = { [Op.eq]: material}
+    if (gender) filters["genderId"] = { [Op.eq]: gender}
+   
 
     return filters
 }

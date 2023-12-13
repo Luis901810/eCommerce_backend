@@ -3,11 +3,9 @@
 module.exports = (conditions) => {
 
     const {
-        sort_fname,
-        sort_lname,
-        sort_status,
-        sort_systemRole,
-        sort_enrollmentDate,
+        sort_name,
+        sort_price,
+        sort_stock,
     } = conditions
     
     let order = []
@@ -19,11 +17,9 @@ module.exports = (conditions) => {
         }
     }
 
-    addOrder("firstName", sort_fname?.trim().toUpperCase());
-    addOrder("lastName", sort_lname?.trim().toUpperCase());
-    addOrder("status", sort_status?.trim().toUpperCase());
-    addOrder("systemRole", sort_systemRole?.trim().toUpperCase());
-    addOrder("enrollmentDate", sort_enrollmentDate?.trim().toUpperCase());
+    addOrder("name", sort_name?.trim().toUpperCase());
+    addOrder("price", sort_price?.trim().toUpperCase());
+    addOrder("stock", sort_stock?.trim().toUpperCase());
 
     return order
 }

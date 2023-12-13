@@ -50,6 +50,11 @@ module.exports = (sequelize) => {
                 min: 0,
                 max: 100
             }
+        },
+        deleteAt: {
+            type: DataTypes.BOOLEAN,
+            allowNull: true,
+            defaultValue: null,
         }
     })
 }
