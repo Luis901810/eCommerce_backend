@@ -54,7 +54,7 @@ module.exports = (sequelize) => {
         deleteAt: {
             type: DataTypes.BOOLEAN,
             allowNull: true,
-            defaultValue: null,
+            defaultValue: null
         }
     })
 }
