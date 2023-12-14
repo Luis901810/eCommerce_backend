@@ -12,8 +12,7 @@ module.exports = async () => {
         await require('./Shoe/Brand')()
         await require('./Shoe/Material')()
         await require('./Shoe/Category')()
-
-        console.log('Tablas revisadas y datos añadidos (*)')
+        await require('./Shoe')()
     } catch (error) {
         console.error('Error añadiendo datos: ', error)
     }
