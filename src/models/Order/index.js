@@ -16,6 +16,10 @@ module.exports = (sequelize) => {
         totalAmount: {
             type: DataTypes.DECIMAL(10, 2),
             allowNull: false
+        },
+        deletedAt: {
+            type: DataTypes.DATE,
+            allowNull: true
         }
     })
 }

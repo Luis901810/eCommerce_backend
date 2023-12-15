@@ -16,7 +16,6 @@ module.exports = (sequelize) => {
         email: {
             type: DataTypes.STRING,
             allowNull: false,
-            unique: true,
             validate: {
                 isEmail: {
                     msg: 'El formato del correo electrónico no es válido'
@@ -26,7 +25,6 @@ module.exports = (sequelize) => {
         phoneNumber: {
             type: DataTypes.STRING,
             allowNull: true,
-            unique: true,
             validate: {
                 is: phoneNumberRegex,
                 msg: `El formato del número de teléfono no es válido. Se esperaba ${phoneNumberRegex}`
@@ -64,6 +62,10 @@ module.exports = (sequelize) => {
         twoFactorEnabled: {
             type: DataTypes.BOOLEAN,
             defaultValue: false
+        },
+        deletedAt: {
+            type: DataTypes.DATE,
+            allowNull: true
         }
     })
 }
