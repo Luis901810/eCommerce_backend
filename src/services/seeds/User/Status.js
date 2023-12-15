@@ -1,22 +1,26 @@
 const { UserStatus } = require('../../../db')
+const data = [
+    {
+        status: 'Activo',
+        description: 'Estado activo del usuario'
+    },
+    {
+        status: 'Inactivo',
+        description: 'Estado inactivo del usuario'
+    }
+]
 
 module.exports = async () => {
     try {
-        // Insertar 'Activo' si no existe
-        await UserStatus.findOrCreate({
-            where: { status: 'Activo' },
-            defaults: {
-                description: 'Estado activo del usuario'
-            }
-        })
-
-        // Insertar 'Inactivo' si no existe
-        await UserStatus.findOrCreate({
-            where: { status: 'Inactivo' },
-            defaults: {
-                description: 'Estado inactivo del usuario'
-            }
-        })
+        // Insertar status si no existe
+        await Promise.all(data.map(async ({ status, description }) => {
+            await UserStatus.findOrCreate({
+                where: { status },
+                defaults: {
+                    description
+                }
+            })
+        }))
 
         console.log('Estados de usuario insertados correctamente.')
     } catch (error) {

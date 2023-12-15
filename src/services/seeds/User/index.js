@@ -1,7 +1,7 @@
 const { User } = require('../../../db')
-const getUserRoles = require('../../../handlers/User/getUserRoles')
-const getUserStatus = require('../../../handlers/User/getUserStatus')
-const getUserGender = require('../../../handlers/User/getUserGender')
+const getUserRoles = require('../../../handlers/UserRol/getUserRol')
+const getUserStatus = require('../../../handlers/UserStatus/getUserStatus')
+const getUserGender = require('../../../handlers/UserGender/getUserGender')
 
 const data = [
     {

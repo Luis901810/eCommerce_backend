@@ -14,8 +14,4 @@ router.post('/', require('../controllers/Shoe/createShoe'))
 router.put('/:id', require('../controllers/Shoe/updateShoe'))
 router.delete('/:id', require('../controllers/Shoe/deleteShoe'))
 
-
-
-
-
 module.exports = router

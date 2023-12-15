@@ -8,7 +8,11 @@ router.get('/', (req, res) => {
 // ------------     Routes      --------------------
 
 router.use('/user', require('./User'))
+router.use('/user-rol', require('./UserRol'))
 router.use('/shoe', require('./Shoe'))
+router.use('/shoe-brand', require('./ShoeBrand'))
+router.use('/shoe-material', require('./ShoeMaterial'))
+router.use('/shoe-color', require('./ShoeColor'))
 
 // -------------------------------------------------
 
