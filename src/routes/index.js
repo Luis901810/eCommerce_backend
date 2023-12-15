@@ -14,6 +14,8 @@ router.use('/shoe-brand', require('./ShoeBrand'))
 router.use('/shoe-material', require('./ShoeMaterial'))
 router.use('/shoe-color', require('./ShoeColor'))
 router.use('/shoe-category', require('./ShoeCategory'))
+router.use('/shoe-gender', require('./ShoeGender'))
+router.use('/shoe-size', require('./ShoeSize'))
 
 // -------------------------------------------------
 
