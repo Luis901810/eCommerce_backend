@@ -13,7 +13,7 @@ const createShoe = async (req, res) => {
         brand,
         material,
         gender,
-        categories
+        categoryIds
     } = req.body
 
     try {
@@ -39,9 +39,9 @@ const createShoe = async (req, res) => {
         }
 
         // Añadir categorias
-        const categoriesObj = await Promise.all(
-            categories.map(async (category) => await ShoeCategory.findByPk(category))
-        )
+        const categoriesObj = await Promise.all(categoryIds?.map(
+            async (categoryId) => await ShoeCategory.findByPk(categoryId)
+        ))
         await newShoe.addShoeCategory(categoriesObj)
 
         return res.status(200).json(newShoe)
