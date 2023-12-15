@@ -1,4 +1,4 @@
-module.exports = async () => {
+(async () => {
     try {
         // User
         await require('./User/Gender')()
@@ -16,4 +16,4 @@ module.exports = async () => {
     } catch (error) {
         console.error('Error añadiendo datos: ', error)
     }
-}
+})()
