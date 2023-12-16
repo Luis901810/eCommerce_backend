@@ -1,7 +1,8 @@
-const { User } = require('../../../db')
+const createUser = require('../../../handlers/User/createUser')
 const getUserRoles = require('../../../handlers/UserRol/getUserRol')
 const getUserStatus = require('../../../handlers/UserStatus/getUserStatus')
 const getUserGender = require('../../../handlers/UserGender/getUserGender')
+const getAuthMethod = require('../../../handlers/UserAuthMethod/getAuthMethod')
 
 const data = [
     {
@@ -10,7 +11,8 @@ const data = [
         password: 'pass123',
         rol: 'Administrador',
         gender: 'Masculino',
-        status: 'Activo'
+        status: 'Activo',
+        authMethod: 'App'
     },
     {
         name: 'Kevin Padilla',
@@ -18,7 +20,8 @@ const data = [
         password: 'pass123',
         rol: 'Administrador',
         gender: 'Masculino',
-        status: 'Activo'
+        status: 'Activo',
+        authMethod: 'App'
     },
     {
         name: 'Luis Barrios',
@@ -26,7 +29,8 @@ const data = [
         password: 'pass123',
         rol: 'Administrador',
         gender: 'Masculino',
-        status: 'Activo'
+        status: 'Activo',
+        authMethod: 'App'
     },
     {
         name: 'Alexis Porcelano',
@@ -34,7 +38,8 @@ const data = [
         password: 'pass123',
         rol: 'Administrador',
         gender: 'Masculino',
-        status: 'Activo'
+        status: 'Activo',
+        authMethod: 'App'
     },
     {
         name: 'Sebastian Kang',
@@ -42,31 +47,26 @@ const data = [
         password: 'pass123',
         rol: 'Administrador',
         gender: 'Masculino',
-        status: 'Activo'
+        status: 'Activo',
+        authMethod: 'App'
     },
     {
-        name: 'Ana Rosales',
-        email: 'ana123@gmail.com',
-        password: 'pass123',
-        rol: 'Cliente',
-        gender: 'Femenino',
-        status: 'Activo'
-    },
-    {
-        name: 'Julia Ramirez',
-        email: 'julia123@gmail.com',
+        name: 'Usuario cliente',
+        email: 'cliente@gmail.com',
         password: 'pass123',
         rol: 'Cliente',
         gender: 'Otro',
-        status: 'Inactivo'
+        status: 'Activo',
+        authMethod: 'App'
     },
     {
-        name: 'Gloria Willians',
-        email: 'gloria123@gmail.com',
+        name: 'Usuario invitado',
+        email: 'invitado@gmail.com',
         password: 'pass123',
         rol: 'Invitado',
         gender: 'Femenino',
-        status: 'Activo'
+        status: 'Activo',
+        authMethod: 'App'
     }
 ]
 
@@ -75,11 +75,13 @@ module.exports = async () => {
         const [
             rolesData,
             statusData,
-            genderData
+            genderData,
+            authMethodData
         ] = await Promise.all([
             getUserRoles(),
             getUserStatus(),
-            getUserGender()
+            getUserGender(),
+            getAuthMethod()
         ])
 
         // Insertar los usuarios si no existen
@@ -87,19 +89,17 @@ module.exports = async () => {
             const roleId = rolesData.find(({ rol }) => rol === user.rol)?.id || null
             const statusId = statusData.find(({ status }) => status === user.status)?.id || null
             const genderId = genderData.find(({ gender }) => gender === user.gender)?.id || null
-
-            await User.findOrCreate({
-                where: {
-                    email: user.email,
-                    phoneNumber: user.phoneNumber || null
-                },
-                defaults: {
-                    name: user.name,
-                    password: user.password,
-                    roleId,
-                    statusId,
-                    genderId
-                }
+            const authMethodId = authMethodData.find(({ authMethod }) => authMethod === user.authMethod)?.id || null
+            const { name, email, password } = user
+            await createUser({
+                name,
+                email,
+                password,
+                roleId,
+                statusId,
+                genderId,
+                authMethodId,
+                includeDeleted: false
             })
         }))
 

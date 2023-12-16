@@ -11,11 +11,11 @@ module.exports = (sequelize) => {
         },
         name: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: true
         },
         email: {
             type: DataTypes.STRING,
-            allowNull: false,
+            allowNull: true,
             validate: {
                 isEmail: {
                     msg: 'El formato del correo electrónico no es válido'
@@ -26,8 +26,10 @@ module.exports = (sequelize) => {
             type: DataTypes.STRING,
             allowNull: true,
             validate: {
-                is: phoneNumberRegex,
-                msg: `El formato del número de teléfono no es válido. Se esperaba ${phoneNumberRegex}`
+                is: {
+                    args: [phoneNumberRegex],
+                    msg: 'El formato del número de teléfono no es válido.'
+                }
             }
         },
         isEmailVerified: {
@@ -40,7 +42,7 @@ module.exports = (sequelize) => {
         },
         password: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: true
         },
         birthDate: {
             type: DataTypes.DATEONLY,

@@ -1,8 +1,18 @@
-const { User } = require('../../db')
+const createUser = require('../../handlers/User/createUser')
 
 module.exports = async (req, res) => {
     try {
-        const newUser = await User.create({ ...req.body })
+        const {
+            user: newUser,
+            error,
+            msg
+        } = await createUser({
+            ...req.body,
+            requiredUserName: req.body.requiredUserName !== false,
+            requiredUserPassword: req.body.requiredUserPassword !== false,
+            includeDeleted: req.body.includeDeleted || false
+        })
+        if (error) return res.status(400).json({ error: msg })
         res.status(201).json(newUser)
     } catch (error) {
         console.log(error)
