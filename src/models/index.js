@@ -65,8 +65,14 @@ module.exports = (sequelize) => {
     User.hasMany(Order, { foreignKey: 'userId' })
     Order.belongsTo(User, { foreignKey: 'userId' })
 
-    Shoe.belongsToMany(Order, { through: OrderLine })
-    Order.belongsToMany(Shoe, { through: OrderLine })
+    Shoe.belongsToMany(Order, { through: { model: OrderLine }, foreignKey: 'shoeId' });
+    Order.belongsToMany(Shoe, { through: { model: OrderLine }, foreignKey: 'orderId' });
+
+    Order.hasMany(OrderLine, { foreignKey: 'orderId' });
+    OrderLine.belongsTo(Order, { foreignKey: 'orderId' });
+
+    Shoe.hasMany(OrderLine, { foreignKey: 'shoeId' });
+    OrderLine.belongsTo(Shoe, { foreignKey: 'shoeId' });
 
     // Favorite
 
