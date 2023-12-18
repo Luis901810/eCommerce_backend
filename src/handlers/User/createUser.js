@@ -2,25 +2,33 @@ const { User } = require('../../db')
 const findUserByEmail = require('./findUserByEmail')
 const findUserByPhoneNumber = require('./findUserByPhoneNumber')
 
-module.exports = async (userData) => {
-    // Validate Required User Data
+module.exports = async (payload) => {
     const {
         name,
         email,
         phoneNumber,
         password,
+        birthDate,
+        profilePicture,
+        roleId,
+        genderId,
+        statusId,
+        authMethodId,
         requiredUserName,
         requiredUserPassword,
+        requirePhoneNumber,
         includeDeleted
-    } = userData
-    if (requiredUserName && !name) {
-        return { error: true, msg: 'Usuario debe tener un nombre.' }
+    } = payload
+
+    // Create User Data
+    const userData = {}
+    if (requiredUserName) {
+        if (!name) { return { error: true, msg: 'Usuario debe tener un nombre.' } }
+        userData.name = name
     }
-    if (requiredUserPassword && !password) {
-        return { error: true, msg: 'Usuario debe tener una contraseña.' }
-    }
-    if (!email) {
-        return { error: true, msg: 'Usuario debe tener un email.' }
+    if (requiredUserPassword) {
+        if (!password) return { error: true, msg: 'Usuario debe tener una contraseña.' }
+        userData.password = password
     }
 
     // Validate Existing User
@@ -29,20 +37,28 @@ module.exports = async (userData) => {
         userFoundByPhoneNumber
     ] = await Promise.all([
         await findUserByEmail(email, includeDeleted),
-        phoneNumber && await findUserByPhoneNumber(phoneNumber, includeDeleted)
+        await findUserByPhoneNumber(phoneNumber, includeDeleted)
     ])
-    if (userFoundByEmail) {
-        return { error: true, msg: 'El email ya existe.' }
+    if (requirePhoneNumber) {
+        if (!phoneNumber) { return { error: true, msg: 'Usuario debe tener un número de teléfono.' } }
+        if (userFoundByPhoneNumber) return { error: true, msg: 'El número de teléfono ya existe.' }
+        userData.phoneNumber = phoneNumber
     }
-    if (userFoundByPhoneNumber) {
-        return { error: true, msg: 'El número de teléfono ya existe.' }
+    if (!email) return { error: true, msg: 'Usuario debe tener un email.' }
+    if (email) {
+        if (userFoundByEmail) return { error: true, msg: 'El email ya existe.' }
+        userData.email = email
     }
+    userData.birthDate = birthDate
+    userData.profilePicture = profilePicture
+    userData.roleId = roleId
+    userData.genderId = genderId
+    userData.statusId = statusId
+    userData.authMethodId = authMethodId
 
-    // TODO: Encrypt password
     // Create User
     const newUser = await User.create(userData)
 
-    // TODO: Create Token
     // Return Data
     return { error: false, user: newUser }
 }

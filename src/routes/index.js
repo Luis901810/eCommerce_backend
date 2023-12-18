@@ -10,6 +10,7 @@ router.get('/', (req, res) => {
 router.use('/user', require('./User'))
 router.use('/user-rol', require('./UserRol'))
 router.use('/user-auth-method', require('./UserAuthMethod'))
+router.use('/access-token', require('./AccessToken'))
 router.use('/shoe', require('./Shoe'))
 router.use('/shoe-brand', require('./ShoeBrand'))
 router.use('/shoe-material', require('./ShoeMaterial'))
