@@ -1,10 +1,11 @@
-const { User } = require('../../db')
+const deleteUser = require('../../handlers/User/deleteUser')
 
 module.exports = async (req, res) => {
     try {
-        const user = await User.findByPk(req.params.id)
-        if (!user) { return res.status(404).json({ error: 'Usuario no encontrado' }) }
-        await user.destroy()
+        const userId = req.params.id
+        const hardDelete = req.query.hardDelete || false
+        const { error, msg } = await deleteUser(userId, hardDelete)
+        if (error) { return res.status(404).json({ error: msg }) }
         return res.json('Usuario eliminado correctamente')
     } catch (error) {
         console.log(error)
