@@ -1,5 +1,6 @@
 const { DataTypes } = require('sequelize')
 const { phoneNumberRegex } = require('../../utils/validators')
+const encrypt = require('../../utils/encryption/encrypt')
 
 module.exports = (sequelize) => {
     sequelize.define('User', {
@@ -68,6 +69,15 @@ module.exports = (sequelize) => {
         deletedAt: {
             type: DataTypes.DATE,
             allowNull: true
+        }
+    }, {
+        hooks: {
+            beforeCreate: async (user) => {
+                user.password = await encrypt(user.password, 10)
+            },
+            beforeUpdate: async (user) => {
+                user.password = await encrypt(user.password, 10)
+            }
         }
     })
 }
