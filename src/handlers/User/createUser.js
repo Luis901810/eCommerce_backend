@@ -32,20 +32,15 @@ module.exports = async (payload) => {
     }
 
     // Validate Existing User
-    const [
-        userFoundByEmail,
-        userFoundByPhoneNumber
-    ] = await Promise.all([
-        await findUserByEmail(email, includeDeleted),
-        await findUserByPhoneNumber(phoneNumber, includeDeleted)
-    ])
     if (requirePhoneNumber) {
         if (!phoneNumber) { return { error: true, msg: 'Usuario debe tener un número de teléfono.' } }
+        const userFoundByPhoneNumber = await findUserByPhoneNumber(phoneNumber, includeDeleted)
         if (userFoundByPhoneNumber) return { error: true, msg: 'El número de teléfono ya existe.' }
         userData.phoneNumber = phoneNumber
     }
     if (!email) return { error: true, msg: 'Usuario debe tener un email.' }
     if (email) {
+        const userFoundByEmail = await findUserByEmail(email, includeDeleted)
         if (userFoundByEmail) return { error: true, msg: 'El email ya existe.' }
         userData.email = email
     }
