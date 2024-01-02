@@ -26,7 +26,7 @@ module.exports = async (req, res) => {
         res.status(201).json({
             auth: true,
             token,
-            data: newUser
+            user: newUser
         })
     } catch (error) {
         console.log(error)
