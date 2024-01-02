@@ -24,6 +24,10 @@ module.exports = (sequelize) => {
             type: DataTypes.DECIMAL(10, 2),
             allowNull: true,
             defaultValue: 0
+        },
+        deletedAt: {
+            type: DataTypes.DATE,
+            allowNull: true
         }
     })
 }

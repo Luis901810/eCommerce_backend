@@ -3,6 +3,7 @@ module.exports = (sequelize) => {
     require('./User/UserRol')(sequelize)
     require('./User/UserGender')(sequelize)
     require('./User/UserStatus')(sequelize)
+    require('./User/UserAuthMethod')(sequelize)
     require('./Shoe')(sequelize)
     require('./Shoe/ShoeBrand')(sequelize)
     require('./Shoe/ShoeCategory')(sequelize)
@@ -18,7 +19,7 @@ module.exports = (sequelize) => {
     require('./UserReview')(sequelize)
 
     const {
-        User, UserRol, UserGender, UserStatus,
+        User, UserRol, UserGender, UserStatus, UserAuthMethod,
         Shoe, ShoeSize, ShoeBrand, ShoeCategory, ShoeColor, ShoeGender, ShoeMaterial,
         ShoeShoeCategory,
         Order, OrderStatus, OrderLine,
@@ -36,6 +37,9 @@ module.exports = (sequelize) => {
 
     UserStatus.hasMany(User, { foreignKey: 'statusId' })
     User.belongsTo(UserStatus, { foreignKey: 'statusId' })
+
+    UserAuthMethod.hasMany(User, { foreignKey: 'authMethodId' })
+    User.belongsTo(UserAuthMethod, { foreignKey: 'authMethodId' })
 
     // Shoe
 
@@ -65,8 +69,14 @@ module.exports = (sequelize) => {
     User.hasMany(Order, { foreignKey: 'userId' })
     Order.belongsTo(User, { foreignKey: 'userId' })
 
-    Shoe.belongsToMany(Order, { through: OrderLine })
-    Order.belongsToMany(Shoe, { through: OrderLine })
+    Shoe.belongsToMany(Order, { through: { model: OrderLine }, foreignKey: 'shoeId' });
+    Order.belongsToMany(Shoe, { through: { model: OrderLine }, foreignKey: 'orderId' });
+
+    Order.hasMany(OrderLine, { foreignKey: 'orderId' });
+    OrderLine.belongsTo(Order, { foreignKey: 'orderId' });
+
+    Shoe.hasMany(OrderLine, { foreignKey: 'shoeId' });
+    OrderLine.belongsTo(Shoe, { foreignKey: 'shoeId' });
 
     // Favorite
 
