@@ -17,16 +17,15 @@ const getAllShoes = async(req, res) => {
         options["offset"] = offset
         options["limit"] = limit
         
-        let{category} = req.query
-        // category = category.replace("[","").replace("]","").split(",")
-        // console.log(category, category.length)
-        if(category){
+        let{categories} = req.query
+        
+        if(categories){
             options["include"] = [
                 {
                     model: ShoeCategory,
                     as: 'ShoeCategories',
-                    where: { category : {
-                        [Op.eq]: category
+                    where: { id : {
+                        [Op.in]: categories.split(",")
                     }}
                 }
             ]
