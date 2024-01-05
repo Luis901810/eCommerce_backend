@@ -17,7 +17,7 @@ module.exports = (shoeFilters) => {
         brands, materials, genders
     } = shoeFilters
 
-    
+    filters["deletedAt"] = {[Op.is]: null}
     if (name) filters["name"] = { [Op.iLike]: "%" + name.trim() + "%" }
     if (pricemin & pricemax) filters["price"] = {[Op.between]:[pricemin, pricemax]}
     if (stock) filters["stock"] = { [Op.lte]: Number(stock)}

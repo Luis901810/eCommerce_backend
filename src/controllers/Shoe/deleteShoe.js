@@ -8,7 +8,7 @@ const deleteShoe = async (req, res) => {
 
         if (!shoe) return res.status(404).json({ error: 'Zapato no encontrado' })
 
-        await shoe.update({ deleteAt: true })
+        await shoe.update({ deleteAt: new Date() })
 
         return res.status(200).json(shoe)
     } catch (error) {
