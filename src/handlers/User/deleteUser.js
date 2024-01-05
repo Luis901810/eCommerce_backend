@@ -1,10 +1,9 @@
 const { User } = require('../../db')
 
-module.exports = async (userId, hardDelete = false) => {
+module.exports = async (deleteOptions, hardDelete = false) => {
     // Find existing user
-    const findOptions = { where: { id: userId } }
-    if (!hardDelete) findOptions.where.deletedAt = null
-    const user = await User.findOne(findOptions)
+    if (!hardDelete) deleteOptions.where.deletedAt = null
+    const user = await User.findOne(deleteOptions)
     if (!user) {
         return { error: true, msg: 'Usuario no encontrado' }
     }
