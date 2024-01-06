@@ -3,7 +3,7 @@ const { Order } = require('../../db');
 const updateOrder = async (req, res) => {
     try {
         const { id } = req.params;
-        const { totalAmount } = req.body;
+        const { totalAmount, statusId } = req.body; //! PIDO el statusID
 
         // Verificar que la orden existe
         const order = await Order.findByPk(id);
@@ -12,7 +12,7 @@ const updateOrder = async (req, res) => {
         }
 
         // Actualizar la orden
-        await Order.update({ totalAmount }, {
+        await Order.update({ totalAmount, statusId }, {//! PASO statusID
             where: {
                 id: id
             }
