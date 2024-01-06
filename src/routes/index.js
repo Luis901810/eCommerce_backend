@@ -2,7 +2,9 @@ const { Router } = require('express')
 const router = Router()
 
 router.get('/', (req, res) => {
-    res.send('Bienvenidos al Backend de Tienda de Zapatos con fines de estudios de Henry')
+    res.send(
+        'Bienvenidos al Backend de Tienda de Zapatos con fines de estudios de Henry',
+    )
 })
 
 // ------------     Routes      --------------------
@@ -10,6 +12,7 @@ router.get('/', (req, res) => {
 router.use('/user', require('./User'))
 router.use('/user-rol', require('./UserRol'))
 router.use('/user-auth-method', require('./UserAuthMethod'))
+router.use('/user-review', require('./UserReview'))
 router.use('/access-token', require('./AccessToken'))
 router.use('/shoe', require('./Shoe'))
 router.use('/shoe-brand', require('./ShoeBrand'))
