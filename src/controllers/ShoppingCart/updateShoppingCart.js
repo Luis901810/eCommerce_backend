@@ -14,22 +14,25 @@ module.exports = async (req, res) => {
             return res.status(404).json({ error: 'Order not found' })
         }
 
-        // Eliminar todos los elementos existentes del carrito
-        await ShoppingCartItem.destroy({
-            where: {
-                ShoppingCartId: id,
-            },
-        })
-
-        // Agregar los nuevos elementos al carrito
-        for (const item of items) {
-            await ShoppingCartItem.create({
-                quantity: item.quantity,
-                unitPrice: item.unitPrice,
-                discount: item.discount,
-                shoeId: item.shoeId,
-                ShoppingCartId: id,
+        // ! Si hay items a editar
+        if (items && items.length > 0) {
+            // ! Eliminar todos los elementos existentes del carrito
+            await ShoppingCartItem.destroy({
+                where: {
+                    ShoppingCartId: id,
+                },
             })
+
+            // * Agregar los nuevos elementos al carrito
+            for (const item of items) {
+                await ShoppingCartItem.create({
+                    quantity: item.quantity,
+                    unitPrice: item.unitPrice,
+                    discount: item.discount,
+                    shoeId: item.shoeId,
+                    ShoppingCartId: id,
+                })
+            }
         }
 
         // Actualizar la información del carrito
