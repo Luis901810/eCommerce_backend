@@ -116,6 +116,12 @@ module.exports = sequelize => {
         foreignKey: 'ShoppingCartId',
     })
 
+    ShoppingCart.hasMany(ShoppingCartItem, { foreignKey: 'ShoppingCartId' })
+    ShoppingCartItem.belongsTo(ShoppingCart, { foreignKey: 'ShoppingCartId' })
+
+    Shoe.hasMany(ShoppingCartItem, { foreignKey: 'shoeId' })
+    ShoppingCartItem.belongsTo(Shoe, { foreignKey: 'shoeId' })
+
     // Favorite
 
     Shoe.belongsToMany(User, { through: Favorite })
