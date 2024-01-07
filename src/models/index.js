@@ -1,4 +1,4 @@
-module.exports = (sequelize) => {
+module.exports = sequelize => {
     require('./User')(sequelize)
     require('./User/UserRol')(sequelize)
     require('./User/UserGender')(sequelize)
@@ -15,16 +15,32 @@ module.exports = (sequelize) => {
     require('./Order')(sequelize)
     require('./Order/OrderLine')(sequelize)
     require('./Order/OrderStatus')(sequelize)
+    require('./ShoppingCart')(sequelize)
+    require('./ShoppingCart/ShoppingCartItem')(sequelize)
     require('./Favorite')(sequelize)
     require('./UserReview')(sequelize)
 
     const {
-        User, UserRol, UserGender, UserStatus, UserAuthMethod,
-        Shoe, ShoeSize, ShoeBrand, ShoeCategory, ShoeColor, ShoeGender, ShoeMaterial,
+        User,
+        UserRol,
+        UserGender,
+        UserStatus,
+        UserAuthMethod,
+        Shoe,
+        ShoeSize,
+        ShoeBrand,
+        ShoeCategory,
+        ShoeColor,
+        ShoeGender,
+        ShoeMaterial,
         ShoeShoeCategory,
-        Order, OrderStatus, OrderLine,
+        Order,
+        OrderStatus,
+        OrderLine,
+        ShoppingCart,
+        ShoppingCartItem,
         Favorite,
-        UserReview
+        UserReview,
     } = sequelize.models
 
     // User
@@ -69,14 +85,36 @@ module.exports = (sequelize) => {
     User.hasMany(Order, { foreignKey: 'userId' })
     Order.belongsTo(User, { foreignKey: 'userId' })
 
-    Shoe.belongsToMany(Order, { through: { model: OrderLine }, foreignKey: 'shoeId' });
-    Order.belongsToMany(Shoe, { through: { model: OrderLine }, foreignKey: 'orderId' });
+    Shoe.belongsToMany(Order, {
+        through: { model: OrderLine },
+        foreignKey: 'shoeId',
+    })
 
-    Order.hasMany(OrderLine, { foreignKey: 'orderId' });
-    OrderLine.belongsTo(Order, { foreignKey: 'orderId' });
+    Order.belongsToMany(Shoe, {
+        through: { model: OrderLine },
+        foreignKey: 'orderId',
+    })
 
-    Shoe.hasMany(OrderLine, { foreignKey: 'shoeId' });
-    OrderLine.belongsTo(Shoe, { foreignKey: 'shoeId' });
+    Order.hasMany(OrderLine, { foreignKey: 'orderId' })
+    OrderLine.belongsTo(Order, { foreignKey: 'orderId' })
+
+    Shoe.hasMany(OrderLine, { foreignKey: 'shoeId' })
+    OrderLine.belongsTo(Shoe, { foreignKey: 'shoeId' })
+
+    // Shopping Cart
+
+    User.hasOne(ShoppingCart, { foreignKey: 'userId' })
+    ShoppingCart.belongsTo(User, { foreignKey: 'userId' })
+
+    Shoe.belongsToMany(ShoppingCart, {
+        through: { model: ShoppingCartItem },
+        foreignKey: 'shoeId',
+    })
+
+    ShoppingCart.belongsToMany(Shoe, {
+        through: { model: ShoppingCartItem },
+        foreignKey: 'ShoppingCartId',
+    })
 
     // Favorite
 

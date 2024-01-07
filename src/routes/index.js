@@ -23,6 +23,7 @@ router.use('/shoe-gender', require('./ShoeGender'))
 router.use('/shoe-size', require('./ShoeSize'))
 router.use('/order', require('./Order'))
 router.use('/order-status', require('./OrderStatus'))
+router.use('/shopping-cart', require('./ShoppingCart'))
 router.use('/MercadoPago', require('./MercadoPago'))
 
 // -------------------------------------------------
