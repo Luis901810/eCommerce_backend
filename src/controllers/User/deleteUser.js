@@ -3,8 +3,8 @@ const deleteUser = require('../../handlers/User/deleteUser')
 module.exports = async (req, res) => {
     try {
         const userId = req.params.id
-        const hardDelete = req.query.hardDelete || false
-        const deleteType = req.query.deleteType || 'id'
+        const hardDelete = req.body.hardDelete || false
+        const deleteType = req.body.deleteType || 'id'
         const deleteOptions = {}
         if (deleteType === 'id') deleteOptions.where = { id: userId }
         if (deleteType === 'email') deleteOptions.where = { email: userId }
