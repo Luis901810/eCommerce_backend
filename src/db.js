@@ -9,11 +9,14 @@ const sequelize = new Sequelize(
     `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}`,
     {
         logging: false,
-        native: false
-    }
+        native: false,
+    },
 )
 
 // --------------------------------------------------------------
+
+
+
 // Luis barrios si vas hacer pruebas
 // o ver cambios de manera local por favor comenta esta parte y descomenta la de arriba gracias
 // ya una vez hecho verificciones las vuelves a dejar como estaban para que no se rompa el deploy
@@ -45,5 +48,5 @@ require('./models')(sequelize)
 
 module.exports = {
     ...sequelize.models,
-    conn: sequelize
+    conn: sequelize,
 }
