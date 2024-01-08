@@ -15,7 +15,7 @@ const { Sequelize } = require('sequelize')
 
 // --------------------------------------------------------------
 
-// comentar trabajar local
+
 
 
 // Luis barrios si vas hacer pruebas
