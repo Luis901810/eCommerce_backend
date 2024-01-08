@@ -3,7 +3,7 @@ const mercadopago = require('mercadopago')
 //!Credenciales del .env
 const ACCESS_TOKEN =
     'TEST-7120791930180798-112715-b8bed09589c90708ab8b212544f746b9-1555519585'
-const LOCALHOST = 'http://localhost:3000/' //Del front
+const LOCALHOST = 'https://storecalzado.vercel.app/' //Del front
 
 mercadopago.configure({
     access_token: ACCESS_TOKEN || '',
@@ -31,9 +31,9 @@ module.exports = async (req, res) => {
             items: ProductsOrder,
 
             back_urls: {
-                success: `${LOCALHOST}successes`,
+                success: `${LOCALHOST}Successes`,
                 //Retorna esto si está mal
-                failure: `${LOCALHOST}failures`,
+                failure: `${LOCALHOST}Failures`,
             },
 
             auto_return: 'approved',
