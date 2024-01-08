@@ -15,7 +15,7 @@ const sequelize = new Sequelize(
 
 // --------------------------------------------------------------
 
-// comentar trabajar local
+
 
 // Luis barrios si vas hacer pruebas
 // o ver cambios de manera local por favor comenta esta parte y descomenta la de arriba gracias
