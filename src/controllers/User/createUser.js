@@ -10,6 +10,7 @@ module.exports = async (req, res) => {
             user: newUser,
             error,
             msg,
+            role, // * Requerido para crear el token
         } = await createUser({
             ...req.body,
             requiredUserName: req.body.requiredUserName !== false,
@@ -21,9 +22,14 @@ module.exports = async (req, res) => {
         if (error) return res.status(400).json({ error: msg })
 
         // Generate Session Token
-        const token = jwt.sign({ id: newUser.id }, process.env.JWT_SECRET, {
-            expiresIn: 60 * 60 * 24 * 6,
-        })
+
+        const token = jwt.sign(
+            { id: newUser.id, role: role.rol },
+            process.env.JWT_SECRET,
+            {
+                expiresIn: 60 * 60 * 24 * 6,
+            },
+        )
 
         // Generate and send email
         const welcomeMessage = generateWelcomeMessage(newUser.name)
