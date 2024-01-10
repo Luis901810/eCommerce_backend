@@ -24,7 +24,7 @@ module.exports = async (req, res) => {
         // Generate Session Token
 
         const token = jwt.sign(
-            { id: newUser.id, role: role.rol },
+            { id: newUser.id, role: role?.rol },
             process.env.JWT_SECRET,
             {
                 expiresIn: 60 * 60 * 24 * 6,
