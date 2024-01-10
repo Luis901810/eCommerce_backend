@@ -3,15 +3,15 @@ const { Sequelize } = require('sequelize')
 
 // --------------------------------------------------------------
 
-const { DB_USER, DB_PASSWORD, DB_HOST, DB_NAME } = process.env
+// const { DB_USER, DB_PASSWORD, DB_HOST, DB_NAME } = process.env
 
-const sequelize = new Sequelize(
-    `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}`,
-    {
-        logging: false,
-        native: false,
-    },
-)
+// const sequelize = new Sequelize(
+//     `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}`,
+//     {
+//         logging: false,
+//         native: false,
+//     },
+// )
 
 // --------------------------------------------------------------
 
@@ -21,26 +21,26 @@ const sequelize = new Sequelize(
 // o ver cambios de manera local por favor comenta esta parte y descomenta la de arriba gracias
 // ya una vez hecho verificciones las vuelves a dejar como estaban para que no se rompa el deploy
 
-// const sequelize = new Sequelize(process.env.POSTGRES_URL, {
-//     dialect: 'postgres',
-//     logging: false,
-//     ssl: true, // Siempre establecido en true
-//     dialectOptions: {
-//         ssl: {
-//             require: true,
-//             rejectUnauthorized: false
-//         }
-//     }
-// });
+const sequelize = new Sequelize(process.env.POSTGRES_URL, {
+    dialect: 'postgres',
+    logging: false,
+    ssl: true, // Siempre establecido en true
+    dialectOptions: {
+        ssl: {
+            require: true,
+            rejectUnauthorized: false
+        }
+    }
+});
 
-// (async () => {
-//     try {
-//         await sequelize.authenticate()
-//         console.log('Successful PostgreSQL connection')
-//     } catch (error) {
-//         console.error('Error connecting to PostgreSQL: ', error)
-//     }
-// })()
+(async () => {
+    try {
+        await sequelize.authenticate()
+        console.log('Conexion Exitosa a PostgreSQL')
+    } catch (error) {
+        console.error('Error al Conectarse a PostgreSQL: ', error)
+    }
+})();
 
 // ----------------------------------------------------------------------
 

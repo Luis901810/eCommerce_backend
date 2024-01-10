@@ -1,12 +1,33 @@
-const { UserReview } = require('../../db')
+const { Sequelize } = require('sequelize')
+const { UserReview, OrderLine, Shoe } = require('../../db')
 
 module.exports = async (req, res) => {
     try {
-        // Solo traer reviews no eliminadas
-        const options = { where: { deletedAt: null } }
+        const { shoeId } = req.params//Params
+
+        const reviewOptions = {
+            where: { deletedAt: null },
+            include: [
+                {
+                    model: OrderLine,
+                    include: [
+                        { model: Shoe, attributes: ['id', 'name', 'price'] },
+                    ],
+                },
+            ],
+        }
+
+        console.log(reviewOptions)
 
         // Obtener todas las revisiones de usuario
-        const reviews = await UserReview.findAll(options)
+        let reviews = await UserReview.findAll(reviewOptions)
+
+        // Filtrar por shoeId
+        if (shoeId) {
+            reviews = reviews.filter(
+                review => review.OrderLine.shoeId === shoeId,
+            )
+        }
 
         res.status(200).json({ reviews })
     } catch (error) {

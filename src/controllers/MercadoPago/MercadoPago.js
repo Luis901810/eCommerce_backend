@@ -3,7 +3,7 @@ const mercadopago = require('mercadopago')
 //!Credenciales del .env
 const ACCESS_TOKEN =
     'TEST-7120791930180798-112715-b8bed09589c90708ab8b212544f746b9-1555519585'
-const LOCALHOST = 'http://localhost:3000/' //Del front
+const URL_FRONT = process.env.URL_FRONT || 'http://localhost:3000/'
 
 mercadopago.configure({
     access_token: ACCESS_TOKEN || '',
@@ -31,17 +31,17 @@ module.exports = async (req, res) => {
             items: ProductsOrder,
 
             back_urls: {
-                success: `${LOCALHOST}successes`,
+                success: `${URL_FRONT}Successes`,
                 //Retorna esto si está mal
-                failure: `${LOCALHOST}failures`,
+                failure: `${URL_FRONT}Failures`,
             },
 
             auto_return: 'approved',
         }
 
         const response = await mercadopago.preferences.create(preferences)
-        console.log('ENVIO:', response) //Para ver la respuesta completa
-        console.log('ITEMS:', response.body.items) //Para ver los items
+        // console.log('ENVIO:', response) //Para ver la respuesta completa
+        // console.log('ITEMS:', response.body.items) //Para ver los items
         console.log('ID COMPRA:', response.body.id)
         //res.status(200).json(response);//! Esta respuesta me trae tooooda la informacion de la venta
         res.status(200).json(response.response.init_point) //! para la URL de pago
