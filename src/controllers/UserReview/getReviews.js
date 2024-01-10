@@ -3,7 +3,7 @@ const { UserReview, OrderLine, Shoe } = require('../../db')
 
 module.exports = async (req, res) => {
     try {
-        const { shoeId } = req.body
+        const { shoeId } = req.params//Params
 
         const reviewOptions = {
             where: { deletedAt: null },

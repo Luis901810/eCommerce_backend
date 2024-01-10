@@ -3,7 +3,7 @@ const { User } = require('../../db')
 module.exports = async (req, res) => {
     try {
         const userId = req.params.id
-        const findType = req.body.findType || 'id'
+        const findType = req.query.findType || 'id'
         // const includeDeleted = req.query.includeDeleted || false
         const userOptions = {}
         if (findType === 'id') userOptions.where = { id: userId }
