@@ -1,8 +1,8 @@
-const { User } = require('../../db')
+const { User, UserRol } = require('../../db')
 const findUserByEmail = require('./findUserByEmail')
 const findUserByPhoneNumber = require('./findUserByPhoneNumber')
 
-module.exports = async (payload) => {
+module.exports = async payload => {
     const {
         name,
         email,
@@ -17,25 +17,37 @@ module.exports = async (payload) => {
         requiredUserName,
         requiredUserPassword,
         requirePhoneNumber,
-        includeDeleted
+        includeDeleted,
     } = payload
 
     // Create User Data
     const userData = {}
     if (requiredUserName) {
-        if (!name) { return { error: true, msg: 'Usuario debe tener un nombre.' } }
+        if (!name) {
+            return { error: true, msg: 'Usuario debe tener un nombre.' }
+        }
         userData.name = name
     }
     if (requiredUserPassword) {
-        if (!password) return { error: true, msg: 'Usuario debe tener una contraseña.' }
+        if (!password)
+            return { error: true, msg: 'Usuario debe tener una contraseña.' }
         userData.password = password
     }
 
     // Validate Existing User
     if (requirePhoneNumber) {
-        if (!phoneNumber) { return { error: true, msg: 'Usuario debe tener un número de teléfono.' } }
-        const userFoundByPhoneNumber = await findUserByPhoneNumber(phoneNumber, includeDeleted)
-        if (userFoundByPhoneNumber) return { error: true, msg: 'El número de teléfono ya existe.' }
+        if (!phoneNumber) {
+            return {
+                error: true,
+                msg: 'Usuario debe tener un número de teléfono.',
+            }
+        }
+        const userFoundByPhoneNumber = await findUserByPhoneNumber(
+            phoneNumber,
+            includeDeleted,
+        )
+        if (userFoundByPhoneNumber)
+            return { error: true, msg: 'El número de teléfono ya existe.' }
         userData.phoneNumber = phoneNumber
     }
     if (!email) return { error: true, msg: 'Usuario debe tener un email.' }
@@ -51,9 +63,16 @@ module.exports = async (payload) => {
     userData.statusId = statusId
     userData.authMethodId = authMethodId
 
+    // Validar rol del usuario si existe
+    let role = null
+    if (roleId) {
+        role = await UserRol.findByPk(roleId)
+        if (!role) return { error: true, msg: 'El rol de usuario no existe.' }
+    }
+
     // Create User
     const newUser = await User.create(userData)
 
     // Return Data
-    return { error: false, user: newUser }
+    return { error: false, user: newUser, role }
 }

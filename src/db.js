@@ -9,12 +9,11 @@ const { Sequelize } = require('sequelize')
 //     `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}`,
 //     {
 //         logging: false,
-//         native: false
-//     }
+//         native: false,
+//     },
 // )
 
 // --------------------------------------------------------------
-
 
 
 
@@ -37,11 +36,11 @@ const sequelize = new Sequelize(process.env.POSTGRES_URL, {
 (async () => {
     try {
         await sequelize.authenticate()
-        console.log('Successful PostgreSQL connection')
+        console.log('Conexion Exitosa a PostgreSQL')
     } catch (error) {
-        console.error('Error connecting to PostgreSQL: ', error)
+        console.error('Error al Conectarse a PostgreSQL: ', error)
     }
-})()
+})();
 
 // ----------------------------------------------------------------------
 
@@ -49,5 +48,5 @@ require('./models')(sequelize)
 
 module.exports = {
     ...sequelize.models,
-    conn: sequelize
+    conn: sequelize,
 }

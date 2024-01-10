@@ -132,6 +132,6 @@ module.exports = sequelize => {
     User.hasMany(UserReview, { foreignKey: 'userId' })
     UserReview.belongsTo(User, { foreignKey: 'userId' })
 
-    UserReview.hasOne(OrderLine, { foreignKey: 'orderLineId' })
-    OrderLine.belongsTo(UserReview, { foreignKey: 'orderLineId' })
+    UserReview.belongsTo(OrderLine, { foreignKey: 'orderLineId' })
+    OrderLine.hasMany(UserReview, { foreignKey: 'orderLineId' })
 }
