@@ -40,8 +40,8 @@ module.exports = async (req, res) => {
         }
 
         const response = await mercadopago.preferences.create(preferences)
-        console.log('ENVIO:', response) //Para ver la respuesta completa
-        console.log('ITEMS:', response.body.items) //Para ver los items
+        // console.log('ENVIO:', response) //Para ver la respuesta completa
+        // console.log('ITEMS:', response.body.items) //Para ver los items
         console.log('ID COMPRA:', response.body.id)
         //res.status(200).json(response);//! Esta respuesta me trae tooooda la informacion de la venta
         res.status(200).json(response.response.init_point) //! para la URL de pago
