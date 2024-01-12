@@ -1,18 +1,15 @@
-const { Sequelize } = require('sequelize')
 const { UserReview, OrderLine, Shoe } = require('../../db')
 
 module.exports = async (req, res) => {
     try {
-        const { shoeId } = req.params//Params
+        const { shoeId } = req.params
 
         const reviewOptions = {
             where: { deletedAt: null },
             include: [
                 {
                     model: OrderLine,
-                    include: [
-                        { model: Shoe, attributes: ['id', 'name', 'price'] },
-                    ],
+                    include: [{ model: Shoe, attributes: ['id', 'name', 'price'] }],
                 },
             ],
         }
@@ -24,9 +21,7 @@ module.exports = async (req, res) => {
 
         // Filtrar por shoeId
         if (shoeId) {
-            reviews = reviews.filter(
-                review => review.OrderLine.shoeId === shoeId,
-            )
+            reviews = reviews.filter(review => review.OrderLine.shoeId === shoeId)
         }
 
         res.status(200).json({ reviews })
