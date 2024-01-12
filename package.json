@@ -9,7 +9,8 @@
         "seed": "node ./src/services/seeds/index.js",
         "test": "echo \"Error: no test specified\" && exit 1",
         "format": "prettier --write .",
-        "lint": "eslint --fix . --ext .js"
+        "lint": "eslint --fix . --ext .js",
+        "delete": "node ./src/services/UserReview/deleteReviews.js"
     },
     "keywords": [],
     "author": "",
