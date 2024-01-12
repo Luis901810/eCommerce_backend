@@ -29,8 +29,7 @@ module.exports = async payload => {
         userData.name = name
     }
     if (requiredUserPassword) {
-        if (!password)
-            return { error: true, msg: 'Usuario debe tener una contraseña.' }
+        if (!password) return { error: true, msg: 'Usuario debe tener una contraseña.' }
         userData.password = password
     }
 
@@ -42,12 +41,8 @@ module.exports = async payload => {
                 msg: 'Usuario debe tener un número de teléfono.',
             }
         }
-        const userFoundByPhoneNumber = await findUserByPhoneNumber(
-            phoneNumber,
-            includeDeleted,
-        )
-        if (userFoundByPhoneNumber)
-            return { error: true, msg: 'El número de teléfono ya existe.' }
+        const userFoundByPhoneNumber = await findUserByPhoneNumber(phoneNumber, includeDeleted)
+        if (userFoundByPhoneNumber) return { error: true, msg: 'El número de teléfono ya existe.' }
         userData.phoneNumber = phoneNumber
     }
     if (!email) return { error: true, msg: 'Usuario debe tener un email.' }
@@ -65,7 +60,7 @@ module.exports = async payload => {
 
     // Validar rol del usuario si existe
     let role = null
-    if (roleId) {
+    if (payload.login && roleId) {
         role = await UserRol.findByPk(roleId)
         if (!role) return { error: true, msg: 'El rol de usuario no existe.' }
     }
