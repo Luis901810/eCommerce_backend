@@ -2,7 +2,7 @@ const { UserReview, OrderLine, Shoe } = require('../../db')
 
 module.exports = async (req, res) => {
     try {
-        const { shoeId } = req.params
+        const { shoeId, userId } = req.body
 
         const reviewOptions = {
             where: { deletedAt: null },
@@ -14,7 +14,11 @@ module.exports = async (req, res) => {
             ],
         }
 
-        console.log(reviewOptions)
+        // Filtrar reviews por userId
+        console.log({ userId })
+        if (userId) {
+            reviewOptions.where.userId = userId
+        }
 
         // Obtener todas las revisiones de usuario
         let reviews = await UserReview.findAll(reviewOptions)
