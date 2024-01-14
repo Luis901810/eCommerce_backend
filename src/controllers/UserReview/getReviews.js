@@ -2,7 +2,8 @@ const { UserReview, OrderLine, Shoe } = require('../../db')
 
 module.exports = async (req, res) => {
     try {
-        const { shoeId, userId } = req.body
+        const { userId } = req.body
+        const { shoeId } = req.params
 
         const reviewOptions = {
             where: { deletedAt: null },
@@ -15,7 +16,6 @@ module.exports = async (req, res) => {
         }
 
         // Filtrar reviews por userId
-        console.log({ userId })
         if (userId) {
             reviewOptions.where.userId = userId
         }
