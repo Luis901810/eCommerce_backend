@@ -1,7 +1,7 @@
 const createUser = require('../../handlers/User/createUser')
 const jwt = require('jsonwebtoken')
-const { sendMail } = require('../../utils/email')
-const { generateWelcomeMessage } = require('../../utils/welcomeMail')
+const { sendMail } = require('../../utils/email/email')
+const { generateWelcomeMessage } = require('../../utils/email/welcomeMail')
 
 module.exports = async (req, res) => {
     try {
