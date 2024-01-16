@@ -9,8 +9,7 @@ module.exports = async (req, res) => {
         if (findType === 'id') userOptions.where = { id: userId }
         if (findType === 'email') userOptions.where = { email: userId }
         const user = await User.findOne(userOptions)
-        if (!user)
-            return res.status(404).json({ error: 'Usuario no encontrado' })
+        if (!user) return res.status(404).json({ error: 'Usuario no encontrado' })
         return res.json(user)
     } catch (error) {
         console.log(error)

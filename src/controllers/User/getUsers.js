@@ -1,4 +1,4 @@
-const { User } = require('../../db')
+const { User, UserRol, UserGender, UserStatus, UserAuthMethod } = require('../../db')
 
 module.exports = async (req, res) => {
     try {
@@ -10,7 +10,27 @@ module.exports = async (req, res) => {
         // }
 
         // Retornar lista de usuarios
-        const options = {}
+        const options = {
+            include: [
+                {
+                    model: UserRol,
+                    attributes: ['id', 'rol'],
+                },
+                {
+                    model: UserGender,
+                    attributes: ['id', 'gender'],
+                },
+                {
+                    model: UserStatus,
+                    attributes: ['id', 'status'],
+                },
+                {
+                    model: UserAuthMethod,
+                    attributes: ['id', 'authMethod'],
+                },
+            ],
+        }
+
         const users = await User.findAll(options)
         res.json(users)
     } catch (error) {
