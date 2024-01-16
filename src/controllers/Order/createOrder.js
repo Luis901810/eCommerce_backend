@@ -22,51 +22,54 @@
 }
 */
 
-const { Order, OrderLine, OrderStatus, User, Shoe } = require('../../db');
+const { Order, OrderLine, OrderStatus, User, Shoe } = require('../../db')
 
 const createOrder = async (req, res) => {
     try {
-        const { totalAmount, lines, statusId, userId } = req.body;
+        const { totalAmount, lines, statusId, userId } = req.body
 
         // Verificar que el usuario existe
-        const user = await User.findByPk(userId);
+        const user = await User.findByPk(userId)
         if (!user) {
-            return res.status(404).json({ error: 'User not found' });
+            return res.status(404).json({ error: 'User not found' })
         }
 
         // Verificar que el estado de la orden existe
-        const orderStatus = await OrderStatus.findByPk(statusId);
+        const orderStatus = await OrderStatus.findByPk(statusId)
         if (!orderStatus) {
-            return res.status(404).json({ error: 'Order status not found' });
+            return res.status(404).json({ error: 'Order status not found' })
         }
 
         // Crear la orden
-        const newOrder = await Order.create({ totalAmount, statusId, userId });
+        const newOrder = await Order.create({ totalAmount, statusId, userId })
 
         // Crear las líneas de la orden y asociar los zapatos
+        const newLines = [] // ! Para enviar las lineas en la response
         for (let line of lines) {
-            const { quantity, unitPrice, discount, shoeId } = line;
+            const { quantity, unitPrice, discount, shoeId } = line
 
             // Verificar que el zapato existe
-            const shoe = await Shoe.findByPk(shoeId);
+            const shoe = await Shoe.findByPk(shoeId)
             if (!shoe) {
-                return res.status(404).json({ error: `Shoe with id ${shoeId} not found` });
+                return res.status(404).json({ error: `Shoe with id ${shoeId} not found` })
             }
 
-            const newLine = await OrderLine.create({ 
-                orderId: newOrder.id, 
-                quantity, 
-                unitPrice, 
+            const newLine = await OrderLine.create({
+                orderId: newOrder.id,
+                quantity,
+                unitPrice,
                 discount,
-                shoeId
-            });
-            
+                shoeId,
+            })
+
+            newLines.push(newLine)
         }
 
-        return res.status(201).json(newOrder);
+        return res.status(201).json({ ...newOrder.dataValues, newLines })
+        // return res.status(201).json(newOrder)
     } catch (error) {
-        return res.status(500).json({ error: `There was an error processing your request : ${error.message}` });
+        return res.status(500).json({ error: `There was an error processing your request : ${error.message}` })
     }
-};
+}
 
-module.exports = createOrder;
+module.exports = createOrder
