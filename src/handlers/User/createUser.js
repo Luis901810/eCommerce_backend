@@ -18,6 +18,7 @@ module.exports = async payload => {
         requiredUserPassword,
         requirePhoneNumber,
         includeDeleted,
+        firebaseUid,
     } = payload
 
     // Create User Data
@@ -57,6 +58,7 @@ module.exports = async payload => {
     userData.genderId = genderId
     userData.statusId = statusId
     userData.authMethodId = authMethodId
+    userData.firebaseUid = firebaseUid
 
     // Validar rol del usuario si existe
     let role = null
