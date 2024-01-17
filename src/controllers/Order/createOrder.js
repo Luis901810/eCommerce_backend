@@ -23,8 +23,6 @@
 */
 
 const { Order, OrderLine, OrderStatus, User, Shoe } = require('../../db')
-const createOrderMessage = require('../../utils/email/createOrderMessage')
-const { sendMail } = require('../../utils/email/email')
 
 const createOrder = async (req, res) => {
     try {
@@ -46,7 +44,7 @@ const createOrder = async (req, res) => {
         const newOrder = await Order.create({ totalAmount, statusId, userId })
 
         // Crear las líneas de la orden y asociar los zapatos
-        const newLines = []
+        const newLines = [] // ! Para enviar las lineas en la response
         for (let line of lines) {
             const { quantity, unitPrice, discount, shoeId } = line
 
@@ -67,31 +65,10 @@ const createOrder = async (req, res) => {
             newLines.push(newLine)
         }
 
-        // Obtener el correo electrónico del usuario
-        const userEmail = user.email
-
-        console.log('Correo electrónico del usuario:', userEmail)
-
-        // Definir el mensaje según el estado de la orden
-        const orderMessage = createOrderMessage(statusId, user.name, newLines)
-
-        console.log('Mensaje del pedido:', orderMessage)
-
-        // Envía un correo electrónico al usuario después de la compra
-        try {
-            await sendMail(userEmail, `Compra Realizada`, orderMessage)
-            console.log(`Correo electrónico de compra ${orderStatus.name} enviado con éxito.`)
-        } catch (emailError) {
-            console.error(`Error al enviar el correo electrónico de compra ${orderStatus.name}:`, emailError)
-        }
-
-        // Retorna una respuesta JSON
-        return res.status(201).json({ message: 'Order created successfully', order: newOrder, lines: newLines })
+        return res.status(201).json({ ...newOrder.dataValues, newLines })
+        // return res.status(201).json(newOrder)
     } catch (error) {
-        console.error('Error en el proceso:', error)
-        return res.status(500).json({
-            error: `There was an error processing your request: ${error.message}`,
-        })
+        return res.status(500).json({ error: `There was an error processing your request : ${error.message}` })
     }
 }
 
