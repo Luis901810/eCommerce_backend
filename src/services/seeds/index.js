@@ -14,6 +14,8 @@
         await require('./Shoe/Material')()
         await require('./Shoe/Category')()
         await require('./Shoe')()
+        // Order
+        await require('./Order/OrderStatus')()
     } catch (error) {
         console.error('Error añadiendo datos: ', error)
     }
