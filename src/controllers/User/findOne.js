@@ -1,4 +1,4 @@
-const { User } = require('../../db')
+const { User, UserRol } = require('../../db')
 
 module.exports = async (req, res) => {
     try {
@@ -8,6 +8,7 @@ module.exports = async (req, res) => {
         const userOptions = {}
         if (findType === 'id') userOptions.where = { id: userId }
         if (findType === 'email') userOptions.where = { email: userId }
+        userOptions.include = {model: UserRol}
         const user = await User.findOne(userOptions)
         if (!user) return res.status(404).json({ error: 'Usuario no encontrado' })
         return res.json(user)
