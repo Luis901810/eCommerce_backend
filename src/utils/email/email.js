@@ -20,6 +20,7 @@ const sendMail = async (to, subject, html) => {
         const response = await transporter.sendMail(mailOptions)
         return response
     } catch (error) {
+        console.error('Error al enviar el correo electrónico:', error)
         throw error
     }
 }
