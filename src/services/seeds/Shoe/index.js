@@ -882,14 +882,7 @@ const data = [
 module.exports = async () => {
     try {
         // * Obtener Tablas de datos para filtrar ids
-        const [
-            brandData,
-            colorData,
-            genderData,
-            materialData,
-            sizeData,
-            categoryData,
-        ] = await Promise.all([
+        const [brandData, colorData, genderData, materialData, sizeData, categoryData] = await Promise.all([
             getShoeBrand(),
             getShoeColor(),
             getShoeGender(),
@@ -902,24 +895,12 @@ module.exports = async () => {
         await Promise.all(
             data.map(async shoe => {
                 // * Obtener ids de los propiedades de los zapatos
-                const brandId =
-                    brandData.find(({ brand }) => brand === shoe.brand)?.id ||
-                    null
-                const colorId =
-                    colorData.find(({ color }) => color === shoe.color)?.id ||
-                    null
-                const genderId =
-                    genderData.find(({ gender }) => gender === shoe.gender)
-                        ?.id || null
-                const materialId =
-                    materialData.find(
-                        ({ material }) => material === shoe.material,
-                    )?.id || null
-                const sizeId =
-                    sizeData.find(({ size }) => size === shoe.size)?.id || null
-                const categoriesObj = categoryData.filter(({ category }) =>
-                    shoe.categories.includes(category),
-                )
+                const brandId = brandData.find(({ brand }) => brand === shoe.brand)?.id || null
+                const colorId = colorData.find(({ color }) => color === shoe.color)?.id || null
+                const genderId = genderData.find(({ gender }) => gender === shoe.gender)?.id || null
+                const materialId = materialData.find(({ material }) => material === shoe.material)?.id || null
+                const sizeId = sizeData.find(({ size }) => size === shoe.size)?.id || null
+                const categoriesObj = categoryData.filter(({ category }) => shoe.categories.includes(category))
 
                 // Intentar encontrar el zapato existente por el nombre
                 const existingShoe = await Shoe.findOne({
@@ -964,6 +945,6 @@ module.exports = async () => {
 
         console.log('Zapatos insertados correctamente.')
     } catch (error) {
-        console.error('Error al insertar usuarios:', error)
+        console.error('Error al insertar zapatos:', error)
     }
 }
