@@ -29,6 +29,9 @@ module.exports = async (req, res) => {
                     attributes: ['id', 'authMethod'],
                 },
             ],
+            where: {
+                deletedAt: null,
+            },
         }
 
         const users = await User.findAll(options)
